@@ -22,3 +22,12 @@ test:
   timeout: 5000
   username: ubuntu
   password:
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: tanahmerah_production
+  pool: 5
+  timeout: 5000
+  username: ubuntu
+  password:

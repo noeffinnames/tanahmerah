@@ -32,6 +32,25 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+
+group :development, :test do
+  gem 'debugger'
+  gem 'factory_girl', '~> 2.2'
+  gem 'webrat'
+  gem 'rspec-rails', '~> 2.0'
+  gem 'simplecov', :require => false
+  #gem 'sqlite3'
+  gem 'cucumber'
+  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails-training-wheels'
+  gem 'database_cleaner'
+  gem 'capybara'
+end
+
+group :development, :test do
+  gem 'railroady'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
