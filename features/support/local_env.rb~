@@ -1,0 +1,5 @@
+#allows free use of debugger statement inside any step definition.
+require 'rubygems'; require 'debugger';
+
+#allows use of RSpec matchers
+#require 'rspec/expectations'

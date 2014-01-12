@@ -1,0 +1,10 @@
+Feature: User manages expenses
+  Scenario: User adds a new expense
+    Given I go to the new expense page
+    And I fill in "Amount" with "4.50"
+    And I fill in "Description" with "Part for Lawn Mower"
+    And I fill in "Type" with "Equipment"
+    And I fill in "Date" with "03/01/2014"
+    When I press "Create"
+    Then I should be on the expense list page
+    And I should see "Part for Lawn Mower"
