@@ -1,0 +1,8 @@
+class Admin::ExpensesController < Admin::BaseController
+
+  def new
+    @expense = Expense.new
+    render "admin/expenses/new"
+  end
+  
+end

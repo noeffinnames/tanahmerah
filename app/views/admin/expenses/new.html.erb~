@@ -1,0 +1,11 @@
+<%- form_for [:admin, @expense] do |f| -%>
+    <%= f.label :incurred_date %>
+    <%= f.text_field :incurred_date %>
+    <%= f.label :amount %>
+    <%= f.text_area :amount %>
+    <%= f.label :type %>
+    <%= f.text_area :type %>
+    <%= f.label :remarks %>
+    <%= f.text_area :remarks %>
+    <%= f.submit "Record" %>
+<%- end -%>

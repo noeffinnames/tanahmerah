@@ -1,10 +1,9 @@
-Feature: User manages expenses
-  Scenario: User adds a new expense
-    Given I go to the new expense page
-    And I fill in "Amount" with "4.50"
-    And I fill in "Description" with "Part for Lawn Mower"
-    And I fill in "Type" with "Equipment"
-    And I fill in "Date" with "03/01/2014"
-    When I press "Create"
-    Then I should be on the expense list page
-    And I should see "Part for Lawn Mower"
+Feature: Display the list of expenses
+  In order to know which expenses have been incurred
+  As a shareholder
+  I want to see a list of all expenses
+ 
+  Scenario: Display the list of all expenses in the register
+    Given some expenses in the register
+    When I visit the list of expenses
+    Then I see all expenses

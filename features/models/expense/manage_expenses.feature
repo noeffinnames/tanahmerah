@@ -1,5 +1,9 @@
-Feature: User manages expenses
-  Scenario: User adds a new expense
-    When I record a "Part for Lawn Mower" expense
-    Then I should be on the expense list page
-    And I should see the new "Part for Lawn Mower" expense
+Feature: Display the list of expenses
+  In order to know which expenses have been incurred
+  As a shareholder
+  I want to see a list of all expenses
+ 
+  Scenario: Display the list of all expenses in the register
+    Given some expenses are in the register
+    When I visit the list of expenses
+    Then I see all expenses
