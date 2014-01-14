@@ -14,7 +14,7 @@ end
 
 def create_expense(date, amount, type, remarks)
   visit '/admin/expenses/new'
-  fill_in("incurred_date", :with => date)
+  fill_in("expense_incurred_date", :with => date)
   fill_in("expense_amount", :with => amount) 
   fill_in("expense_type", :with => type) 
   fill_in("expense_remarks", :with => remarks) 

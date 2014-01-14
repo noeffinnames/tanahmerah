@@ -1,0 +1,5 @@
+class ResetRailsCache < ActiveRecord::Migration
+  def change
+    Expense.reset_column_information
+  end
+end

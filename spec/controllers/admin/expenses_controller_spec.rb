@@ -12,4 +12,25 @@ describe Admin::ExpensesController do
       assigns(:expense).should_not be_nil
     end
   end
+
+  describe "#create" do
+    it "should create a new expense" do
+      post :create, "expense" => {"incurred_date" => "01/01/2013", "amount" => "1214.23", "category" => "Rates", "remarks" => "December quarter"}
+      assigns(:expense).should_not be_nil
+      assigns(:expense).category.should == "Rates"
+    end
+
+    it "should redirect to the expense list page" do
+      response.should redirect_to admin_expenses_path
+    end
+
+  end
+
+  describe "#index" do
+    it "should be successful" do
+      get :index
+      response.should be_success
+    end
+  end
+
 end

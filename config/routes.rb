@@ -12,7 +12,7 @@ Tanahmerah::Application.routes.draw do
      namespace :admin do
        # Directs /admin/expenses/* to Admin::ExpensesController
        # (app/controllers/admin/expenses_controller.rb)
-       resources :expenses, :only => [:new, :create]
+       resources :expenses, :only => [:new, :create, :index]
      end
 
   root 'welcome#index'

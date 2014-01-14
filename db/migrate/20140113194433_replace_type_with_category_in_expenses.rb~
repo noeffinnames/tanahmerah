@@ -1,0 +1,12 @@
+class ReplaceTypeWithCategoryInExpenses < ActiveRecord::Migration
+
+  #'type' is a reserved word in rails ActiveRecord, so change to 'category'
+
+  def self_up
+    rename_column :expenses, :type, :category
+  end
+
+  def self_down
+    rename_column :expenses, :category, :type 
+  end
+end

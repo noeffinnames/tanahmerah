@@ -12,11 +12,11 @@ Then(/^I see all expenses$/) do
   pending # express the regexp above with the code you wish you had
 end
 
-def create_expense(date, amount, type, remarks)
+def create_expense(date, amount, category, remarks)
   visit '/admin/expenses/new'
   fill_in("expense_incurred_date", :with => date)
   fill_in("expense_amount", :with => amount) 
-  fill_in("expense_type", :with => type) 
+  fill_in("expense_category", :with => category) 
   fill_in("expense_remarks", :with => remarks) 
   click_button("Record")
   current_path = URI.parse(current_url).path

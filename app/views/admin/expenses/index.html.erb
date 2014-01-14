@@ -1,0 +1,8 @@
+
+<%- @expenses.each do |expense| -%>
+    <%= h expense.incurred_date %>
+    <%= h expense.amount %>
+    <%= h expense.category %>
+    <%= h expense.remarks %>
+<%- end -%>
+<p>TODO - add a decent list of expenses!</p>
