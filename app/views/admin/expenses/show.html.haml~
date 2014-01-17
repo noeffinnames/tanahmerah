@@ -15,5 +15,5 @@
 
 %p#description= @expense.remarks
 
-= link_to 'Edit info', edit_admin_expense_path(@expense)
+= link_to 'Edit info', edit_admin_expenses_path(@expense)
 = link_to 'Back to expense list', admin_expenses_path
