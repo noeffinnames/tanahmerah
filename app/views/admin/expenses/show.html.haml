@@ -1,0 +1,18 @@
+%h2 Details about #{@expense.amount}
+
+%ul#details
+  %li
+    Incurred date:
+    = @expense.incurred_date.strftime("%d %B, %Y")
+  %li
+    Amount:
+    = @expense.amount
+  %li
+    Category:
+    = @expense.category
+
+%h3 Remarks:
+
+%p#description= @expense.remarks
+
+= link_to 'Back to expense list', admin_expenses_path

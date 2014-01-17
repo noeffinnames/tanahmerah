@@ -1,3 +1,6 @@
+/* Simple CSS styling for RottenPotatoes app */
+/* Add these lines to app/assets/stylesheets/application.css */
+
 html, body {
   margin: 0;
   padding: 0;
@@ -33,18 +36,18 @@ h1.title {
   font-size: 2em;
   font-style: normal;
 }
-table#expenses {
+table#movies {
   margin: 10px;
   border-collapse: collapse;
   width: 100%;
   border-bottom: 2px solid black;
 }
-table#expenses th {
+table#movies th {
   border: 2px solid white;
   font-weight: bold;
   background-color: wheat;
 }
-table#expenses th, table#expenses td {
+table#movies th, table#movies td {
   padding: 4px;
   text-align: left;
 }

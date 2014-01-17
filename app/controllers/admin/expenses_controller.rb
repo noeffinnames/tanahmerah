@@ -7,8 +7,6 @@ class Admin::ExpensesController < Admin::BaseController
   def create
     @expense = Expense.new(expense_params)
 
-debugger
-
     if @expense.save
       redirect_to admin_expenses_path and return
     end
@@ -16,6 +14,12 @@ debugger
 
   def index
     @expenses = Expense.all
+  end
+
+  def show
+    id = params[:id] # retrieve expense ID from URI route
+    @expense = Expense.find(id) # look up expense by unique ID
+    # will render app/views/admin/expenses/show.html.haml by default
   end
 
   

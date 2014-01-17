@@ -1,0 +1,31 @@
+<%= form_for [:admin, @expense] do |f| %>
+    <%= f.label :incurred_date %>
+    <%= f.text_field :incurred_date %>
+    <%= f.label :amount %>
+    <%= f.text_area :amount %>
+    <%= f.label :category %>
+    <%= f.text_area :category %>
+    <%= f.label :remarks %>
+    <%= f.text_area :remarks %>
+    <%= f.submit "Record Expense" %>
+<%- end -%>
+
+<p>Tanah Merah anah Merah rah rah rah!</p>
+
+%h2 Create New Expense
+
+= form_tag admin_expenses_path, :method => :post do
+
+  = label :incurred_date, :title, 'Date incurred'
+  = text_field :expense, :incurred_date
+
+  = label :expense, :amount, 'Amount'
+  = select :expense, :amount
+ 
+  = label :expense, :category, 'Category'
+  = date_select :expense, :category, Expense.all_categories
+
+  = label :expense, :remarks, 'Remarks'
+  = select :expense, :remarks
+
+  = submit_tag 'Save Changes'

@@ -15,6 +15,7 @@ debugger
   end
 
   def index
+    @expenses = Expense.all
   end
 
   
