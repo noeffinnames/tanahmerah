@@ -1,0 +1,17 @@
+%h2 Edit Expense
+
+= form_tag admin_expense_path(@expense), :method => :put do
+
+  = label :incurred_date, :title, 'Incurred date'
+  = date_select :expense, :incurred_date
+
+  = label :expense, :amount, 'Amount'
+  = text_field :expense, :amount
+ 
+  = label :expense, :category, 'Category'
+  = select :expense, :category, Expense.all_categories
+
+  = label :expense, :remarks, 'Remarks'
+  = text_area :expense, :remarks
+
+  = submit_tag 'Save Changes'

@@ -23,6 +23,24 @@ class Admin::ExpensesController < Admin::BaseController
     # will render app/views/admin/expenses/show.html.haml by default
   end
 
+  def edit
+    @expense = Expense.find params[:id]
+  end
+
+  def update
+    @expense = Expense.find params[:id]
+    @expense.update_attributes!(expense_params)
+    flash[:notice] = "Expense for #{@expense.amount} was successfully updated."
+    redirect_to admin_expense_path(@expense)
+  end
+
+  def destroy
+    @expense = Expense.find params[:id]
+    @expense.destroy
+    flash[:notice] = "Expense for #{@expense.amount} deleted."
+    redirect_to admin_expenses_path
+  end
+
   
   private
 
