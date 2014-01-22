@@ -1,7 +1,11 @@
 Given(/^some expenses are in the register$/) do
-  create_expense('19/01/2013', '4500', 'Equipment', 'New lawnmower')
+  create_expense('7 May, 2010', '4500', 'Equipment', 'New lawnmower')
   create_expense('05/01/2013', '4.75', 'Garden', 'Lavander bush')
   create_expense('14/07/2013', '100.25', 'Electricity', 'June quarter bill')
+
+  current_path = URI.parse(current_url).path
+  current_path.should == "/admin/expenses"
+  page.all('table#expenses tr').count.should == 4 #includes heading row
 end
 
 When(/^I visit the list of expenses$/) do
@@ -14,13 +18,16 @@ end
 
 def create_expense(date, amount, category, remarks)
   visit '/admin/expenses/new'
-  fill_in("expense_incurred_date", :with => date)
-  fill_in("expense_amount", :with => amount) 
-  fill_in("expense_category", :with => category) 
+  select_a_date(date, :expense, "incurred_date")
+  fill_in("expense_amount", :with => amount)
+  select(category, :from => "#{:expense}[#{'category'}]") 
   fill_in("expense_remarks", :with => remarks) 
-  click_button("Record")
+  click_button("Save Changes")
   current_path = URI.parse(current_url).path
   current_path.should == "/admin/expenses"
+  page.should have_xpath('//*', :text => Date.parse(date).strftime("%d %B, %Y"))
+  page.should have_xpath('//*', :text => amount)
+  page.should have_xpath('//*', :text => category)
   page.should have_xpath('//*', :text => remarks)
 end
 
