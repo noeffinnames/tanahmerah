@@ -6,7 +6,6 @@ class Admin::ExpensesController < Admin::BaseController
 
   def create
     @expense = Expense.new(expense_params)
-
     if @expense.save
       flash[:notice] = "Expense for #{@expense.amount} was successfully created."
       redirect_to admin_expenses_path and return

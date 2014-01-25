@@ -19,11 +19,6 @@ describe Admin::ExpensesController do
       assigns(:expense).should_not be_nil
       assigns(:expense).category.should == "Rates"
     end
-
-    it "should redirect to the expense list page" do
-      response.should redirect_to admin_expenses_path
-    end
-
   end
 
   describe "#index" do

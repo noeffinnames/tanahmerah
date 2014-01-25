@@ -6,7 +6,7 @@ class Admin::ExpensesController < Admin::BaseController
 
   def create
     @expense = Expense.new(expense_params)
-
+debugger
     if @expense.save
       flash[:notice] = "Expense for #{@expense.amount} was successfully created."
       redirect_to admin_expenses_path and return
@@ -29,7 +29,7 @@ class Admin::ExpensesController < Admin::BaseController
 
   def update
     @expense = Expense.find params[:id]
-    @expense.update_attributes!(expense_params) #params[:expense])
+    @expense.update_attributes!(expense_params)
     flash[:notice] = "Expense for #{@expense.amount} was successfully updated."
     redirect_to admin_expense_path(@expense)
   end
