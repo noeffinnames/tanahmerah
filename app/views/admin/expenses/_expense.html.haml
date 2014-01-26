@@ -1,0 +1,6 @@
+%tr
+  %td= expense.incurred_date.strftime("%d %B, %Y") 
+  %td= expense.amount
+  %td= expense.category
+  %td= expense.remarks
+  %td= link_to "Treatment of #{expense.amount}", admin_expense_path(expense)

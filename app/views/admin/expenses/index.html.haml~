@@ -9,12 +9,7 @@
       %th Remarks
       %th More Info
   %tbody
-    - @expenses.each do |expense|
-      %tr
-        %td= expense.incurred_date.strftime("%d %B, %Y") 
-        %td= expense.amount
-        %td= expense.category
-        %td= expense.remarks
-        %td= link_to "Treatment of #{expense.amount}", admin_expense_path(expense)
+    #- @expenses.each do |expense|
+    = render :partial => 'expense', :collection => @expenses
 
-= link_to 'Add new expense', new_expense_path
+= link_to 'Add new expense', new_admin_expense_path
