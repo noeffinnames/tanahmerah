@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Expense do
 
+  it 'raises an error when saving with an invalid incurred_date' 
+
+  it 'raises an error when saving with an invalid amount'
+
   it 'raises an error when saving with no incurred date' do
     expense = Expense.new(incurred_date: nil, amount: '4.50', category: 'Council etc.', remarks: 'Rates Dec quarter')
     expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Incurred date can't be blank")
@@ -22,6 +26,4 @@ describe Expense do
     expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Category is not included in the list")
   end
 
-  it 'raises an error when saving with an invalid incurred_date' 
-    
 end

@@ -22,14 +22,6 @@ describe Expense do
     expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Category is not included in the list")
   end
 
-  it 'raises an error when saving with an invalid incurred_date' 
-    #do
-    #expense = Expense.new(incurred_date: '13/99/2013', amount: '7.50', category: 'Council etc.', remarks: 'Rates Dec quarter')
-    #TODO expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Incurred date must be a valid date")
-    #expect{ expense.save! }.to raise_error
-  #end
-
-  
-
-
+  it 'one'
+    
 end
