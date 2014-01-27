@@ -1,9 +1,22 @@
 class Expense < ActiveRecord::Base
 
   def self.all_categories
-debugger
     Array ['Council etc.', 'Electricity', 'Garden', 'Equipment', 'Finance', 'Gas', 'Other']
   end
 
+  validates :incurred_date, :presence => true
+  validates :amount, :presence => true
+  validates :category, :presence => true
+
+  validates :category, :inclusion => {:in => Expense.all_categories}
+
+
+
+
+  validate :incurred_date_is_valid_date
+
+  def incurred_date_is_valid_date
+    errors.add(:incurred_date, 'must be a valid date') if ((Date.parse(incurred_date) rescue ArgumentError) == ArgumentError)
+  end
 
 end

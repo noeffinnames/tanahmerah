@@ -15,9 +15,9 @@ describe Admin::ExpensesController do
 
   describe "#create" do
     it "should create a new expense" do
-      post :create, "expense" => {"incurred_date" => "01/01/2013", "amount" => "1214.23", "category" => "Rates", "remarks" => "December quarter"}
+      post :create, "expense" => {"incurred_date" => "01/01/2013", "amount" => "1214.23", "category" => "Council etc.", "remarks" => "December quarter"}
       assigns(:expense).should_not be_nil
-      assigns(:expense).category.should == "Rates"
+      assigns(:expense).category.should == "Council etc."
     end
   end
 
