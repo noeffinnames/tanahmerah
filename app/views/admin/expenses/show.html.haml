@@ -6,7 +6,7 @@
     = @expense.incurred_date.strftime("%d %B, %Y")
   %li
     Amount:
-    = @expense.amount
+    = humanized_money_with_symbol @expense.amount
   %li
     Category:
     = @expense.category

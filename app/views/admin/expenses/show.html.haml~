@@ -16,7 +16,6 @@
 %p#description= @expense.remarks
 
 = link_to 'Edit info', edit_admin_expense_path(@expense)
-              
 = link_to 'Back to expense list', admin_expenses_path
 <p>
 = button_to 'Delete', admin_expense_path(@expense), :method => :delete, :confirm => 'Are you sure?'
