@@ -10,6 +10,9 @@ class Admin::ExpensesController < Admin::BaseController
       flash[:notice] = "Expense for #{@expense.amount} was successfully created."
       redirect_to admin_expenses_path and return
     end
+    flash[:notice] = @expense.errors.full_messages.to_sentence
+    render :action => 'new'
+
   end
 
   def index
@@ -28,9 +31,14 @@ class Admin::ExpensesController < Admin::BaseController
 
   def update
     @expense = Expense.find params[:id]
-    @expense.update_attributes!(expense_params)
-    flash[:notice] = "Expense for #{@expense.amount} was successfully updated."
-    redirect_to admin_expense_path(@expense)
+
+    if @expense.update_attributes(expense_params)
+      flash[:notice] = "Expense for #{@expense.amount} was successfully updated."
+      redirect_to admin_expense_path(@expense) and return
+    end
+
+    flash[:notice] = @expense.errors.full_messages.to_sentence
+    render :action => 'edit'
   end
 
   def destroy

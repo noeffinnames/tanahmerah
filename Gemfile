@@ -35,6 +35,9 @@ gem 'rails_serve_static_assets'
 # use Haml for templates
 gem 'haml'
 
+# use for currency/money
+gem 'money-rails'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

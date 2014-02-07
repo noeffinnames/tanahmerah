@@ -1,0 +1,15 @@
+class MonetiseAmountInExpense < ActiveRecord::Migration
+  def up
+    
+ 
+    add_money :expenses, :amount
+    remove_column :expenses, :amount
+    
+  end
+ 
+  def down
+    
+    add_column :expenses, :amount, :float
+    remove_money :expenses, :amount
+  end
+end
