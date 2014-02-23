@@ -5,6 +5,9 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'money-rails/test_helpers'
 
+#ccs 13 Feb 2014 - refer http://stackoverflow.com/questions/5298392/cannot-get-factory-girl-running-under-rails-3-0-5-unexpected-tconstant
+require 'factory_girl'
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
@@ -14,6 +17,9 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
+
+  config.include FactoryGirl::Syntax::Methods
+
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:

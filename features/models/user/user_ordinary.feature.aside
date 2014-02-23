@@ -1,0 +1,29 @@
+Feature: Log ordinary user on to the system
+  In order to secure the system
+  As the system
+  I want to protect sensitive transactions and data from ordinary users
+
+  Scenario: Logging in with Twitter
+    Given I am an ordinary user
+    And I am not logged in
+    And I visit the log in page
+    When I choose the Twitter authentication method
+    Then I am on the Twitter log in page
+
+  Scenario: Logging in with Facebook
+    Given I am an ordinary user
+    And I am not logged in
+    And I visit the log in page
+    When I choose the Facebook authentication method
+    Then I am on the Facebook log in page
+
+  Scenario: Logging out
+    Given I am logged in
+    When I log out
+    Then I am no longer logged in
+    
+  Scenario: Ordinary user cannot see the list of users
+    Given I am logged in as an ordinary user
+    When I visit the list of users
+    Then I see that access is denied
+

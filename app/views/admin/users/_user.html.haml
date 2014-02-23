@@ -1,0 +1,5 @@
+%tr
+  %td= user.name
+  %td= user.shareholder
+  %td= user.shareholding_percent
+  %td= link_to "Details of #{user.name}", admin_user_path(user)

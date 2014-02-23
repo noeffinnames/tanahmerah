@@ -19,5 +19,4 @@ Feature: Display the list of expenses
   Scenario: Non-shareholder cannot maintain expenses in the register
     Given I am logged in as an ordinary user
     And some expenses are in the register for each shareholder
-    When I visit the list of expenses
-    Then I see access is denied 
+    Then I cannot maintain expenses

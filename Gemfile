@@ -38,6 +38,11 @@ gem 'haml'
 # use for currency/money
 gem 'money-rails'
 
+#SSO and third party authentication
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -46,7 +51,8 @@ end
 
 group :development, :test do
   gem 'debugger'
-  gem 'factory_girl', '~> 2.2'
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'ffaker'
   gem 'webrat'
   gem 'rspec-rails', '~> 2.0'
   gem 'simplecov', :require => false

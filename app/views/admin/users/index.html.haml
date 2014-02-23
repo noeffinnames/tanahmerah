@@ -1,0 +1,11 @@
+%h1 All Users
+
+%table#users
+  %thead
+    %tr
+      %th Name
+      %th Shareholder?
+      %th Shareholding %
+      %th More Info
+  %tbody
+    = render :partial => 'user', :collection => @users

@@ -1,0 +1,23 @@
+Feature: Restrict anonymous user
+  In order to secure the system
+  As the system
+  I want to protect sensitive transactions and data from anonymous users
+
+  Scenario: Anonymously browsing non-sensitive data
+    Given I am not logged in
+    When I visit the welcome page
+    Then I see the welcome
+    And I am not logged in
+
+  Scenario: Anonymously browsing sensitive data
+    Given I am not logged in
+    When I visit the expenses list page
+    Then I see the log in page
+    And I am invited to log-in
+    
+  Scenario: Anonymous user cannot see the list of users
+    Given I am not logged in
+    When I visit the list of users
+    Then I see the log in page
+    And I am invited to log-in
+

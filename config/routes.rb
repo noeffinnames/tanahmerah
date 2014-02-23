@@ -13,7 +13,15 @@ Tanahmerah::Application.routes.draw do
        # Directs /admin/expenses/* to Admin::ExpensesController
        # (app/controllers/admin/expenses_controller.rb)
        resources :expenses   #, :only => [:new, :create, :index]
+       resources :users, :except => [:new, :create]
      end
+
+  resources :sessions, :only => [:create]
+
+  #SSO routes
+  get  'auth/:provider/callback' => 'sessions#create',:as => 'login'
+  post 'logout' => 'sessions#destroy'
+  get  'auth/failure' => 'sessions#failure'
 
   #root 'welcome#index'
   root :to => redirect('/admin/expenses')

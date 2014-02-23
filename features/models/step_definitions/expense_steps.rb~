@@ -5,20 +5,12 @@ Given(/^some expenses are in the register$/) do
 
   current_path = URI.parse(current_url).path
   current_path.should == "/admin/expenses"
-  page.all('table#expenses tr').count.should == 3
+  page.all('table#expenses tr').count.should == 4 #includes heading row
 end
 
-When(/^I visit the list of expenses$/) do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then(/^I see all expenses$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
 def create_expense(date, amount, category, remarks)
   visit '/admin/expenses/new'
-debugger
   select_a_date(date, :expense, "incurred_date")
   fill_in("expense_amount", :with => amount)
   select(category, :from => "#{:expense}[#{'category'}]") 
@@ -33,6 +25,34 @@ debugger
 end
 
 
+Given(/^some expenses are in the register for each shareholder$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I can maintain any expense$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I cannot maintain expenses$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+When(/^I visit the expenses list page$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+
+Then(/^I see all expenses$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+
+
+
+
+Then(/^the sum of all shareholder's shareholding_percent is (\d+)%$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
 
 
 

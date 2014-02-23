@@ -8,13 +8,6 @@ Given(/^some expenses are in the register$/) do
   page.all('table#expenses tr').count.should == 4 #includes heading row
 end
 
-When(/^I visit the list of expenses$/) do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then(/^I see all expenses$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
 def create_expense(date, amount, category, remarks)
   visit '/admin/expenses/new'
@@ -32,6 +25,35 @@ def create_expense(date, amount, category, remarks)
 end
 
 
+Given(/^some expenses are in the register for each shareholder$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I can maintain any expense$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I cannot maintain expenses$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+When(/^I visit the list of expenses$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+
+
+Then(/^I see all expenses$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+
+
+
+
+Then(/^the sum of all shareholder's shareholding_percent is (\d+)%$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
 
 
 

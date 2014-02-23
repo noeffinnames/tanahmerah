@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
   protected # prevents method from being invoked by a route
  
   def stub_current_user
-    debugger
     session[:user_id] = cookies[:stub_user_id] if cookies[:stub_user_id]
   end
 

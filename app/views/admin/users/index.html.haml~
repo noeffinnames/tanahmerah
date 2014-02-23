@@ -1,0 +1,12 @@
+%h1 All Users
+
+%table#users
+  %thead
+    %tr
+      %th Incurred Date
+      %th Amount
+      %th Category
+      %th Remarks
+      %th More Info
+  %tbody
+    = render :partial => 'user', :collection => @users
