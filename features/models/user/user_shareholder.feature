@@ -16,7 +16,7 @@ Feature: Log on to the system
     Given I am logged in as a shareholder
     And some users exist
     When I visit the list of users
-    Then I can see all users
+    Then I see all users
     
   
 

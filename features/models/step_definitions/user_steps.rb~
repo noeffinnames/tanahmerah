@@ -42,7 +42,11 @@ end
 
 
 Given(/^I visit the log in page$/) do
-  pending # express the regexp above with the code you wish you had
+  
+  visit '/welcome/login'
+  current_path = URI.parse(current_url).path
+  current_path.should == "/welcome/login"
+  page.should have_content('Please login using one of these providers:')
 end
 
 When(/^I choose the Twitter authentication method$/) do
@@ -85,9 +89,6 @@ Then(/^the sum of all shareholder's shareholding_percent remains (\d+)%$/) do |a
   pending # express the regexp above with the code you wish you had
 end
 
-Then(/^I can see all users$/) do
-  pending # express the regexp above with the code you wish you had
-end
 
 
 
@@ -102,8 +103,9 @@ end
 
 
 
-When /^I am logged in as an administrator$/ do
-  visit '/accounts/login'
+
+When /^I am logged in as an administrator$/ do #TODO
+  visit '/sessions/login'
   fill_in 'user_login', :with => 'admin'
   fill_in 'user_password', :with => 'aaaaaaaa'
   click_button 'Login'
@@ -118,11 +120,12 @@ Given(/^some users exist$/) do
 end
 
 When(/^I visit the list of users$/) do
-  debugger
   visit '/admin/users'
   current_path = URI.parse(current_url).path
   current_path.should == "/admin/users"
-  page.all('table#users tr').count.should == 6
+  page.all('table#users tr').count.should == 6 #includes heading row
+end
+
 Then(/^I see all users$/) do
   current_path = URI.parse(current_url).path
   current_path.should == "/admin/users"

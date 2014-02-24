@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   skip_before_filter :set_current_user
 
   def create
+    debugger
     auth = request.env['omniauth.auth']
  
     if @current_user #session[:user_id]

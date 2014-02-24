@@ -17,14 +17,15 @@ Tanahmerah::Application.routes.draw do
      end
 
   resources :sessions, :only => [:create]
+  
 
   #SSO routes
+  get  'welcome/login' => 'welcome#login'
   get  'auth/:provider/callback' => 'sessions#create',:as => 'login'
   post 'logout' => 'sessions#destroy'
   get  'auth/failure' => 'sessions#failure'
 
-  #root 'welcome#index'
-  root :to => redirect('/admin/expenses')
+  root 'welcome#index'
 
 #===========================================
 

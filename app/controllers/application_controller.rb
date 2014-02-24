@@ -13,15 +13,13 @@ class ApplicationController < ActionController::Base
   protected # prevents method from being invoked by a route
  
   def stub_current_user
-    debugger
     session[:user_id] = cookies[:stub_user_id] if cookies[:stub_user_id]
   end
 
   def set_current_user
-    debugger
     # we exploit the fact that find_by_id(nil) returns nil
-    @current_user ||= User.find_by_id(session[:user_id])
-    redirect_to login_path and return unless @current_user
+    @current_user ||= User.find_by_id(session[:user_id]) #find(session[:user_id]) if session.key?(:user_id) 
+    redirect_to root_path and return unless @current_user
   end
 
 end

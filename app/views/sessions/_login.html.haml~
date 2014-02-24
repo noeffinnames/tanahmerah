@@ -2,4 +2,4 @@
     %p.welcome  Welcome, #{@current_user.name}!
     = link_to 'Log Out', logout_path
   - else
-    %p.login= link_to 'Log in with your Twitter account', login_path(:provider => 'twitter')
+    %p.login= link_to 'Log in with your Twitter account', login_path('twitter')
