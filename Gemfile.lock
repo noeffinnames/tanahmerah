@@ -231,7 +231,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   money-rails
-  omniauth-facebook
+  omniauth-facebook (= 1.6.0)
   omniauth-twitter
   pg
   railroady

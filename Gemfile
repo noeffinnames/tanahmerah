@@ -40,7 +40,8 @@ gem 'money-rails'
 
 #SSO and third party authentication
 gem 'omniauth-twitter'
-gem 'omniauth-facebook'
+#was using , '1.4.0' for facebook
+gem 'omniauth-facebook', '1.6.0'
 
 
 group :doc do
