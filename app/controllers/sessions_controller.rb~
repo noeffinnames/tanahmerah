@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   skip_before_filter :set_current_user
 
   def create
+    debugger
     auth = request.env['omniauth.auth']
  
     if @current_user #session[:user_id]
@@ -17,15 +18,16 @@ class SessionsController < ApplicationController
       # Create the session
       session[:user_id] = identity.user.id
  
-      render :text => "Welcome #{identity.user.name}!"
+      #render :text => "Welcome #{identity.user.name}!"
       #TODO 
-      #redirect_to expenses_path
+      redirect_to admin_expenses_path
     end
   end
 
   def destroy
-    session.delete(:user_id)
+    debugger
+    session[:user_id] = nil #session.delete(:user_id)
     flash[:notice] = 'Logged out successfully.'
-    redirect_to expenses_path
+    redirect_to root_path #admin_expenses_path
   end
 end
