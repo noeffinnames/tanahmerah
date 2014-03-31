@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
   def set_current_user
     # we exploit the fact that find_by_id(nil) returns nil
     @current_user ||= User.find_by_id(session[:user_id]) #find(session[:user_id]) if session.key?(:user_id) 
-    redirect_to root_path and return unless @current_user
+    #redirect_to root_path and return unless @current_user
+    return if @current_user
+    flash[:notice] = 'Please log in to access that function.' #TODO - less specific? 'You are not logged in'?
+    redirect_to root_path
+
   end
 
 end

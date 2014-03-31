@@ -22,7 +22,7 @@ Tanahmerah::Application.routes.draw do
   #SSO routes
   get  'welcome/login' => 'welcome#login'
   get  'auth/:provider/callback' => 'sessions#create',:as => 'login'
-  post 'logout' => 'sessions#destroy'
+  delete 'logout' => 'sessions#destroy'
   get  'auth/failure' => 'sessions#failure'
 
   root 'welcome#index'
