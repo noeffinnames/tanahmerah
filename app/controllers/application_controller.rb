@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
     return if @current_user
     flash[:notice] = 'Please log in to access that function.' #TODO - less specific? 'You are not logged in'?
     redirect_to root_path
-
   end
 
 end

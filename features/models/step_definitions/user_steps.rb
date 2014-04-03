@@ -10,7 +10,7 @@ When(/^I see the welcome$/) do
   pending # express the regexp above with the code you wish you had
 end
 
-Given(/^I am logged in as a shareholder$/) do
+Given(/^I am logged in as shareholder Fiona$/) do
   @shareholder_user = FactoryGirl.create(:user, :name => 'Fiona', :shareholder => true, :shareholding_percent => 20)  
   @current_user = @shareholder_user 
 
@@ -20,6 +20,11 @@ Given(/^I am logged in as a shareholder$/) do
 
   cookie_jar = rack_test_browser.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
   cookie_jar[:stub_user_id] = @current_user.id
+
+  visit '/admin/expenses'
+  current_path = URI.parse(current_url).path
+  current_path.should == "/admin/expenses"
+  page.should have_content('Welcome, Fiona!')
 end
 
 
@@ -60,12 +65,25 @@ Given(/^I am logged in$/) do
   pending # express the regexp above with the code you wish you had
 end
 
-When(/^I log out$/) do
-  pending # express the regexp above with the code you wish you had
+When(/^I log out$/) do 
+
+  rack_test_browser = Capybara.current_session.driver.browser
+
+  cookie_jar = rack_test_browser.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
+  cookie_jar[:stub_user_id] = nil
+
+
+  click_link("Log Out")
+  page.should have_xpath('//*', :text => "Logged out successfully")
+  
+  current_path = URI.parse(current_url).path
+  current_path.should == "/"
+  @current_user = nil #TODO - what is governing this var in test?
+  @current_user.should be_nil
 end
 
 Then(/^I am no longer logged in$/) do
-  pending # express the regexp above with the code you wish you had
+  @current_user.should be_nil
 end
 
 Then(/^I see that access is denied$/) do
@@ -76,11 +94,38 @@ Given(/^I am an ordinary user$/) do
   pending # express the regexp above with the code you wish you had
 end
 
-When(/^I elevate an ordinary user to a shareholder$/) do
-  pending # express the regexp above with the code you wish you had
+
+When(/^an ordinary user Ben exists$/)  do
+  FactoryGirl.create(:user, :name => 'Ben')
+end
+    
+
+When(/^I elevate ordinary user Ben to a 20% shareholder$/) do
+  visit '/admin/users'
+  current_path = URI.parse(current_url).path
+  current_path.should == "/admin/users"
+  page.should have_content('Shareholding %')
+
+  page.all('#users tr').each do |tr|
+    #next unless tr.has_selector?('elevate[href*="Elevate"]')
+    next unless tr.has_content?('Ben')
+
+    # Do stuff with trs that meet the href requirement
+    click_link("Details of Ben")
+    #href = tr.find('elevate')['href']
+    #column_value_1 = tr.all('td')[1].text
+  end
+
+
+
+
+  
+  page.should have_xpath('//*', :text => "Logged out successfully")
+  
+  
 end
 
-Then(/^the elevated shareholder has a shareholding percent$/) do
+Then(/^shareholder Ben has a 20% shareholding$/) do
   pending # express the regexp above with the code you wish you had
 end
 

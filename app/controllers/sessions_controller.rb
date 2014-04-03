@@ -24,8 +24,9 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil #session.delete(:user_id)
-    flash[:notice] = 'Logged out successfully.'
-    redirect_to root_path #admin_expenses_path
+    session[:user_id] = nil 
+    #@current_user = nil #TODO - needed here - do filters control ok?
+    flash[:notice] = 'Logged out successfully.'    
+    redirect_to root_path
   end
 end

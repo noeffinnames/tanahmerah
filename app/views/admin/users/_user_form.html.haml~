@@ -1,11 +1,11 @@
-= label :incurred_date, :title, 'Incurred date'
-= date_select :expense, :incurred_date
-
-= label :expense, :amount, 'Amount'
-= text_field :expense, :amount
+= label :user, :name, 'Name'
+= text_field :user, :name
  
-= label :expense, :category, 'Category'
-= select :expense, :category, Expense.all_categories
+= label :user, :shareholder, 'Shareholder?'
+yes 
+= radio_button :user, :shareholder, true
+<p>no 
+= radio_button :user, :shareholder, false
 
-= label :expense, :remarks, 'Remarks'
-= text_area :expense, :remarks
+= label :user, :shareholding_percent, 'Shareholding Percent'
+= text_field :user, :shareholding_percent
