@@ -107,26 +107,44 @@ When(/^I elevate ordinary user Ben to a 20% shareholder$/) do
   page.should have_content('Shareholding %')
 
   page.all('#users tr').each do |tr|
-    #next unless tr.has_selector?('elevate[href*="Elevate"]')
     next unless tr.has_content?('Ben')
 
-    # Do stuff with trs that meet the href requirement
     click_link("Details of Ben")
-    #href = tr.find('elevate')['href']
-    #column_value_1 = tr.all('td')[1].text
+
+    break
   end
 
+  page.should have_content('Details about Ben')
+  click_link("Edit")
+   
+  page.should have_content('Edit User')
 
+  page.should have_xpath("//input[@value='Ben']")
+  #page.should have_content('Ben')
 
+  choose('user_shareholder_true')
+  fill_in 'user_shareholding_percent', :with => 20
+  click_button("Save Changes")
 
-  
-  page.should have_xpath('//*', :text => "Logged out successfully")
-  
-  
+  #TODO check the update?
+ 
 end
 
 Then(/^shareholder Ben has a 20% shareholding$/) do
-  pending # express the regexp above with the code you wish you had
+  visit '/admin/users'
+  current_path = URI.parse(current_url).path
+  current_path.should == "/admin/users"
+  page.should have_content('Shareholding %')
+
+  page.all('#users tr').each do |tr|
+    next unless tr.has_content?('Ben')
+
+    tr.all('td')[0].text.should == 'Ben'
+    tr.all('td')[1].text.should == 'true'
+    tr.all('td')[2].text.should == '20'
+
+    break
+  end
 end
 
 Then(/^the sum of all shareholder's shareholding_percent remains (\d+)%$/) do |arg1|
