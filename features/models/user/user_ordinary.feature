@@ -5,11 +5,9 @@ Feature: Log ordinary user on to the system
 
   Scenario: Ordinary user cannot see the list of users
     Given I am logged in as an ordinary user
-    When I visit the list of users
-    Then I see that access is denied
+    Then I am denied access to users
 
   Scenario: Ordinary user cannot see expenses
     Given I am logged in as an ordinary user
-    When I visit the list of expenses
-    Then I see that access is denied
+    Then I am denied access to expenses
 
