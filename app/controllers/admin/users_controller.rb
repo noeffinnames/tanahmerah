@@ -1,5 +1,7 @@
 class Admin::UsersController < Admin::BaseController
 
+  skip_before_filter :restrict_to_shareholder, :only => [:create]
+  
   def new
     @user = User.new
   end
@@ -47,7 +49,6 @@ class Admin::UsersController < Admin::BaseController
     flash[:notice] = "User #{@user.name} deleted."
     redirect_to admin_users_path
   end
-
   
   private
 

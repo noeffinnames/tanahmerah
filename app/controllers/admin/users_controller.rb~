@@ -1,58 +1,74 @@
-class Admin::ExpensesController < Admin::BaseController
+class Admin::UsersController < Admin::BaseController
 
+  skip_before_filter :restrict_to_shareholder, :only => [:create]
+  
   def new
-    @expense = Expense.new
+    @user = User.new
   end
 
   def create
-    @expense = Expense.new(expense_params)
-    if @expense.save
-      flash[:notice] = "Expense for #{@expense.amount} was successfully created."
-      redirect_to admin_expenses_path and return
+    @user = User.new(user_params)
+    if @user.save
+      flash[:notice] = "User #{@user.name} was successfully created."
+      redirect_to admin_users_path and return
     end
-    flash[:notice] = @expense.errors.full_messages.to_sentence
+    flash[:notice] = @user.errors.full_messages.to_sentence
     render :action => 'new'
 
   end
 
   def index
-    @expenses = Expense.all
+    @users = User.all
   end
 
   def show
-    id = params[:id] # retrieve expense ID from URI route
-    @expense = Expense.find(id) # look up expense by unique ID
-    # will render app/views/admin/expenses/show.html.haml by default
+    id = params[:id] # retrieve user ID from URI route
+    @user = User.find(id) # look up user by unique ID
+    # will render app/views/admin/users/show.html.haml by default
   end
 
   def edit
-    @expense = Expense.find params[:id]
+    @user = User.find params[:id]
   end
 
   def update
-    @expense = Expense.find params[:id]
+    @user = User.find params[:id]
 
-    if @expense.update_attributes(expense_params)
-      flash[:notice] = "Expense for #{@expense.amount} was successfully updated."
-      redirect_to admin_expense_path(@expense) and return
+    if @user.update_attributes(user_params)
+      flash[:notice] = "User #{@user.name} was successfully updated."
+      redirect_to admin_user_path(@user) and return
     end
 
-    flash[:notice] = @expense.errors.full_messages.to_sentence
+    flash[:notice] = @user.errors.full_messages.to_sentence
     render :action => 'edit'
   end
 
   def destroy
-    @expense = Expense.find params[:id]
-    @expense.destroy
-    flash[:notice] = "Expense for #{@expense.amount} deleted."
-    redirect_to admin_expenses_path
+    @user = User.find params[:id]
+    @user.destroy
+    flash[:notice] = "User #{@user.name} deleted."
+    redirect_to admin_users_path
+  end
+
+  protected
+  def restrict_to_shareholder
+    unless @current_user #defensive edit here as BaseController covers
+      flash[:warning] = 'You must be logged in to operate upon users.'
+      redirect_to root_path
+    end
+
+    unless @current_user.shareholder
+      flash[:warning] = 'You do not have authority to operate upon users.'
+      redirect_to root_path
+    end
+
   end
 
   
   private
 
-  def expense_params
-    params.require(:expense).permit(:incurred_date, :amount, :category, :remarks)
+  def user_params
+    params.require(:user).permit(:name, :shareholder, :shareholding_percent)
   end
   
 end
