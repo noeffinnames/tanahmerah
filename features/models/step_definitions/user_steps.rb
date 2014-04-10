@@ -19,7 +19,7 @@ Then(/^I am denied access to expenses$/) do
   visit '/admin/expenses'
   current_path = URI.parse(current_url).path
   current_path.should == "/"
-  page.should have_content('You do not have permission to access that function.')
+  page.should have_content('You do not have authority to perform that action.')
 end
 
 Then(/^I am denied access to users$/) do
@@ -27,7 +27,7 @@ Then(/^I am denied access to users$/) do
   visit '/admin/users'
   current_path = URI.parse(current_url).path
   current_path.should == "/"
-  page.should have_content('You do not have permission to access that function.')
+  page.should have_content('You do not have authority to perform that action.')
 end
 
 
@@ -88,8 +88,8 @@ When(/^I elevate ordinary user Ben to a 20% shareholder$/) do
    
   page.should have_content('Edit User')
 
-  page.should have_xpath("//input[@value='Ben']")
-  #page.should have_content('Ben')
+  #page.should have_xpath("//input[@value='Ben']")
+  page.should have_content('Ben')
 
   choose('user_shareholder_true')
   fill_in 'user_shareholding_percent', :with => 20

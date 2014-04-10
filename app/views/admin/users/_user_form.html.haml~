@@ -4,7 +4,7 @@
 = label :user, :shareholder, 'Shareholder?'
 yes 
 = radio_button :user, :shareholder, true
-<p>no 
+<p>no  
 = radio_button :user, :shareholder, false
 
 = label :user, :shareholding_percent, 'Shareholding Percent'
