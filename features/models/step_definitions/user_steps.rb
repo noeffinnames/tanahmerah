@@ -1,5 +1,6 @@
 Given(/^I am logged in as shareholder Fiona$/) do
-  @shareholder_user = FactoryGirl.create(:user, :name => 'Fiona', :shareholder => true, :shareholding_percent => 20)  
+  @shareholder_user = FactoryGirl.create(:user, :name => 'Fiona', :shareholder => true, :shareholding_percent => 20, :create_facebook_identity => false, :create_twitter_identity => true) 
+  @shareholder_user.identities.should_not be_empty 
   set_current_user_in_test(@shareholder_user) 
 
   visit '/admin/expenses'

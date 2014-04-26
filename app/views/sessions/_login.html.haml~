@@ -1,6 +1,6 @@
 - if @current_user
   %p.welcome  Welcome, #{@current_user.name}!
-  = link_to 'Log Out', logout_path
+  = link_to 'Log Out', logout_path, :method => :delete 
 - else
   %p.login= link_to 'Log in with your twitter account', login_path('twitter')
   %p.login= link_to 'Log in with your facebook account', 'auth/facebook'

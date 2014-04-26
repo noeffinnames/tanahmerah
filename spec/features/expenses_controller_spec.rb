@@ -1,0 +1,51 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'omniauth.rb'))
+
+feature "Expense management" do
+
+  before do
+    visit "/"
+    @shareholder_user = FactoryGirl.create(:user, :name => 'foo bar', :shareholder => true, :shareholding_percent => 20, :create_facebook_identity => false, :create_twitter_identity => true) 
+    @shareholder_user.identities.should_not be_empty 
+    set_current_user_in_test(@shareholder_user)
+    set_omniauth()
+    Capybara .current_session .driver .request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:facebook]
+    login_with_oauth(:facebook)
+  end
+
+  scenario "#new" do
+
+    visit "/admin/expenses/new"
+    expect(page).to have_text("Create New Expense")
+
+    #fill_in "expense_incurred_date", :with => "01/01/2013"
+    #fill_in "expense_amount", :with  => "1214.23"
+    #fill_in "expense_category", :with  => "Council etc."
+    #fill_in "expense_remarks", :with  => "December quarter"
+    
+    #click_button "Save Changes" #TODO use name "commit"??
+    #expect(page).to have_text("Expense for 1214.23 was successfully created.")
+
+  end
+
+  scenario "#index" do
+    visit "/admin/expenses"
+    expect(page).to have_text("All Expenses")
+  end
+
+#TODO - refactor this code to a helper and same for user_steps.rb
+  def set_current_user_in_test(user)
+    @current_user = user 
+    set_stub_user_id(@current_user.id)
+  end
+
+  def set_stub_user_id(id)
+    #TODO - not setting session[:user_id] because of cucumber issues, so have used hack from http://stackoverflow.com/questions/1271788/session-variables-with-cucumber-stories
+    
+    rack_test_browser = Capybara.current_session.driver.browser
+
+    cookie_jar = rack_test_browser.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
+    cookie_jar[:stub_user_id] = id
+  end
+
+end
