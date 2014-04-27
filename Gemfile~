@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'ruby', '1.9.3'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 
@@ -41,7 +43,7 @@ gem 'money-rails'
 #SSO and third party authentication
 gem 'omniauth-twitter'
 #was using , '1.4.0' for facebook
-gem 'omniauth-facebook', '1.6.1'
+gem 'omniauth-facebook', '1.6.0'
 
 
 group :doc do
