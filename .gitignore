@@ -17,3 +17,7 @@
 
 # Ignore secrets
 /config/initializers/constants_secret.rb
+/.env
+
+#Heroku manages its own Procfile
+/Procfile
