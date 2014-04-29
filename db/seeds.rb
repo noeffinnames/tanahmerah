@@ -9,5 +9,7 @@
 my_class = User.find_by_name('Chris Smyth')
 
 my_class.update_attributes(
-   :shareholder => true
+   :shareholder => true, :shareholding_percent => 20
 )
+
+my_class.save
