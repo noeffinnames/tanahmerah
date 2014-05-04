@@ -11,9 +11,7 @@ class Expense < ActiveRecord::Base
   end
 
   def transacting_user_name
-debugger
     User.find(self.transacting_user_id).name
-    #User.name_please(self.transacting_user_id)
   end
 
   validates :incurred_date, :presence => true
