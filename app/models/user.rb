@@ -17,6 +17,23 @@ class User < ActiveRecord::Base
     return self.shareholding_percent > 0
   end
 
+  def self.get_shareholders
+    User.where(shareholder: true)
+  end
+
+  def self.all_shareholder_ids
+    User.where(shareholder: true).pluck(:id)
+  end
+
+  def self.all_shareholder_names_and_ids
+    User.where(shareholder: true).order('users.name ASC').pluck(:name, :id)
+  end
+
+  def self.shareholding_percent_has_integrity
+    User.sum(:shareholding_percent) == 100
+  end
+
+
 
   def add_provider(auth)
     # Check if the provider already exists, so we don't add it twice

@@ -3,4 +3,6 @@
   %td= expense.amount
   %td= expense.category
   %td= expense.remarks
+  %td= expense.contingency_funded
+  %td= expense.transacting_user_id
   %td= link_to "Treatment of #{expense.amount}", admin_expense_path(expense)

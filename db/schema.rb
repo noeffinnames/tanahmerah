@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140503053413) do
+ActiveRecord::Schema.define(version: 20140504100808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(version: 20140503053413) do
     t.datetime "incurred_date"
     t.string   "category"
     t.text     "remarks"
-    t.integer  "amount_cents",    default: 0,     null: false
-    t.string   "amount_currency", default: "AUD", null: false
+    t.integer  "amount_cents",        default: 0,     null: false
+    t.string   "amount_currency",     default: "AUD", null: false
+    t.integer  "transacting_user_id"
+    t.boolean  "contingency_funded",  default: false
   end
 
   create_table "identities", force: true do |t|

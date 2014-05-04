@@ -9,3 +9,12 @@
 
 = label :expense, :remarks, 'Remarks'
 = text_area :expense, :remarks
+
+= label :expense, :contingency_funded, 'Used sinking fund?'
+yes 
+= radio_button :expense, :contingency_funded, true
+<p>no  
+= radio_button :expense, :contingency_funded, false
+ 
+= label :expense, :transacting_user_id, 'Paid by'
+= select :expense, :transacting_user_id, Expense.all_shareholder_names_and_ids

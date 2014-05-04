@@ -34,11 +34,11 @@ class Admin::ExpensesController < Admin::BaseController
 
     if @expense.update_attributes(expense_params)
       flash[:notice] = "Expense for #{@expense.amount} was successfully updated."
-    else
-      flash[:notice] = @expense.errors.full_messages.to_sentence
+      redirect_to admin_expense_path(@expense) and return
     end
-    
-    redirect_to admin_expense_path(@expense) and return
+
+    flash[:notice] = @expense.errors.full_messages.to_sentence
+    render :action => 'edit'
   end
 
   def destroy

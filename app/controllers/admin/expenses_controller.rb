@@ -52,7 +52,7 @@ class Admin::ExpensesController < Admin::BaseController
   private
 
   def expense_params
-    params.require(:expense).permit(:incurred_date, :amount, :category, :remarks)
+    params.require(:expense).permit(:incurred_date, :amount, :category, :remarks, :transacting_user_id, :contingency_funded)
   end
   
 end

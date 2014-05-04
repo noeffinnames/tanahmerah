@@ -1,11 +1,17 @@
-  = label :incurred_date, :title, 'Incurred date'
-  = date_select :expense, :incurred_date
+= label :incurred_date, :title, 'Incurred date'
+= date_select :expense, :incurred_date
 
-  = label :expense, :amount, 'Amount'
-  = text_field :expense, :amount
+= label :expense, :amount, 'Amount'
+= text_field :expense, :amount
  
-  = label :expense, :category, 'Category'
-  = select :expense, :category, Expense.all_categories
+= label :expense, :category, 'Category'
+= select :expense, :category, Expense.all_categories
 
-  = label :expense, :remarks, 'Remarks'
-  = text_area :expense, :remarks
+= label :expense, :remarks, 'Remarks'
+= text_area :expense, :remarks
+
+= label :expense, :contingency_funded, 'Used sinking fund?'
+yes 
+= radio_button :expense, :contingency_funded, true
+<p>no  
+= radio_button :expense, :contingency_funded, false
