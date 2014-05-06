@@ -35,7 +35,6 @@ class Expense < ActiveRecord::Base
   end
 
   def manage_journals
-debugger
     delete_journals
     if (!self.contingency_funded) then
       create_journals
@@ -43,12 +42,10 @@ debugger
   end
 
   def delete_journals
-debugger
     Journal.destroy_all "expense_id = #{self.id}"
   end
 
   def create_journals
-debugger
     User.get_shareholders.each do |shareholder|
       share_amount = self.amount * (shareholder.shareholding_percent.to_f/100)
       journal = Journal.create :expense_id => self.id, :owed_user_id => self.transacting_user_id, :owing_user_id => shareholder.id, :amount => share_amount, :incurred_date => self.incurred_date

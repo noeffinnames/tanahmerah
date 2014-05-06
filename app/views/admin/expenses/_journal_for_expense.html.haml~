@@ -1,0 +1,3 @@
+%tr
+  %td= journal_for_expense.owing_user_id 
+  %td= journal_for_expense.amount

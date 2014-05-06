@@ -27,8 +27,8 @@ class Expense < ActiveRecord::Base
 
   private
 
-  before_destroy :delete_journals
-  before_save :manage_journals
+  before_destroy :delete_journals, prepend: true
+  after_save :manage_journals
 
   def shareholding_percent_has_integrity
     errors.add(:shareholding_percent, 'must total 100% across all shareholders before expenses can be managed. Go to User maintenance and fix.') if (!User.shareholding_percent_has_integrity)

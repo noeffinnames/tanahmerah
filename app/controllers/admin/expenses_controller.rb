@@ -21,8 +21,18 @@ class Admin::ExpensesController < Admin::BaseController
 
   def show
     id = params[:id] # retrieve expense ID from URI route
+    @journals_for_display = get_journals_for_display(id)
     @expense = Expense.find(id) # look up expense by unique ID
     # will render app/views/admin/expenses/show.html.haml by default
+  end
+
+  def get_journals_for_display(id)
+    journals = []
+    Journal.where(expense_id: id).each do |journal|      
+      aJournal = JournalForDisplay.new(id, journal.owed_user_id, journal.owing_user_id, journal.amount)   
+      journals << aJournal
+    end
+    journals
   end
 
   def edit

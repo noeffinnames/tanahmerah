@@ -1,0 +1,3 @@
+%tr
+  %td= journal_for_display.owing_user_name 
+  %td= journal_for_display.amount

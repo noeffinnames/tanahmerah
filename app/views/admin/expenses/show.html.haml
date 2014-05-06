@@ -10,10 +10,27 @@
   %li
     Category:
     = @expense.category
+  %li
+    Transacted by:
+    = @expense.transacting_user_name
+  %li
+    Used sinking fund?:
+    = @expense.contingency_funded
 
 %h3 Remarks:
 
 %p#description= @expense.remarks
+
+%h3 Journals:
+
+%table#journals
+  %thead
+    %tr
+      %th Shareholder
+      %th Share of Amount
+  %tbody
+    = render :partial => 'journal_for_display', :collection => @journals_for_display
+%p
 
 = link_to 'Edit info', edit_admin_expense_path(@expense)
 = link_to 'Back to expense list', admin_expenses_path
