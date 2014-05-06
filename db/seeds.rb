@@ -5,11 +5,17 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-#User.create(name: 'Chris Smyth', shareholder: true, shareholding_percent: 20, created_at: Time.now)
+
+#expectation is that initial user authenticates by facebook
+#this results in a user that is not a shareholder
+#no way to elevate to shareholder through UI if not a shareholder to start with
+#so we use seed.rb to elevate.
 my_class = User.find_by_name('Chris Smyth')
 
-my_class.update_attributes(
-   :shareholder => true, :shareholding_percent => 20
-)
+if my_class != nil then
+  my_class.update_attributes(
+     :shareholder => true, :shareholding_percent => 20
+  )
 
-my_class.save
+  my_class.save
+end
