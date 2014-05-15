@@ -19,9 +19,10 @@ class Expense < ActiveRecord::Base
   validates :category, :presence => true
   validates :category, :inclusion => {:in => Expense.all_categories}
   validates :transacting_user_id, :presence => true
-  validates :transacting_user_id, :inclusion => {:in => User.all_shareholder_ids}
+  #TODO - remove this: validates :transacting_user_id, :inclusion => {:in => User.all_shareholder_ids}
   validates :contingency_funded, inclusion: [true, false]
-  validate :shareholding_percent_has_integrity   #, :on => :update
+  validate :transacting_user_id_is_shareholder
+  validate :shareholding_percent_has_integrity
 
   #TODO - add date validation - need Rails 4 version of https://github.com/adzap/validates_timeliness/
 
@@ -29,6 +30,10 @@ class Expense < ActiveRecord::Base
 
   before_destroy :delete_journals, prepend: true
   after_save :manage_journals
+
+  def transacting_user_id_is_shareholder
+    errors.add(:transacting_user_id, 'must be a shareholder to record an expense (internal error)') if (!User.has_shareholding?(self.transacting_user_id))
+  end
 
   def shareholding_percent_has_integrity
     errors.add(:shareholding_percent, 'must total 100% across all shareholders before expenses can be managed. Go to User maintenance and fix.') if (!User.shareholding_percent_has_integrity)

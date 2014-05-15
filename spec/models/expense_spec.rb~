@@ -1,12 +1,16 @@
 require 'spec_helper'
 
+
+
 describe Expense do
 
   include MoneyRails::TestHelpers
 
   context "monetization" do
     before(:each) do
-      @expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: 'Council etc.', remarks: nil)
+      @ben = FactoryGirl.create(:shareholder, :shareholding_percent => 40)
+      @fiona = FactoryGirl.create(:shareholder, :shareholding_percent => 60)
+      @expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: 'Council etc.', remarks: nil, transacting_user_id: @ben.id, contingency_funded: false)
     end
 
     it 'expense supports monetization' do
@@ -48,32 +52,66 @@ describe Expense do
   
   end
 
-
-  it 'raises an error when saving with an invalid incurred_date' 
-
-  it 'raises an error when saving with an non-numeric amount' do
-    expense = Expense.new(incurred_date: '13/12/2013', amount: 'abcdefg', category: 'Council etc.', remarks: 'Rates Dec quarter')
-    expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Amount must be greater than or equal to 0.01")
+  context "share_holder_percent_defensive_edits" do
+    before(:each) do
+      @ben = FactoryGirl.create(:shareholder, :shareholding_percent => 40)
+      @fiona = FactoryGirl.create(:shareholder, :shareholding_percent => 40) #sum all users != 100
+    end
+    it 'raises an error when saving with total shareholding_percent for all users not equal 100' do
+      expense = Expense.new(incurred_date: '13/12/2013', amount: '4.50', category: 'Council etc.', remarks: 'Rates Dec quarter', transacting_user_id: @ben.id, contingency_funded: false)
+      expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Shareholding percent must total 100% across all shareholders before expenses can be managed. Go to User maintenance and fix.")
+    end
   end
 
-  it 'raises an error when saving with no incurred date' do
-    expense = Expense.new(incurred_date: nil, amount: '4.50', category: 'Council etc.', remarks: 'Rates Dec quarter')
-    expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Incurred date can't be blank")
-  end
+  context "validation" do
+    before(:each) do
+      @ben = FactoryGirl.create(:shareholder, :shareholding_percent => 40)
+      @fiona = FactoryGirl.create(:shareholder, :shareholding_percent => 60)
+    end
+    it 'raises an error when saving with an invalid incurred_date' 
 
-  it 'raises an error when saving with no amount' do
-    expense = Expense.new(incurred_date: '13/12/2013', amount: nil, category: 'Council etc.', remarks: 'Rates Dec quarter')
-    expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Amount must be greater than or equal to 0.01")
-  end
+    
 
-  it 'allows saving with no remarks' do
-    expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: 'Council etc.', remarks: nil)
-    expect{ expense.save! }.to change(Expense, :count).from(0).to(1)
-  end
+    it 'raises an error when saving with no incurred date' do
+      expense = Expense.new(incurred_date: nil, amount: '4.50', category: 'Council etc.', remarks: 'Rates Dec quarter', transacting_user_id: @ben.id, contingency_funded: false)
+      expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Incurred date can't be blank")
+    end
 
-  it 'raises an error when saving with an invalid category' do
-    expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: '<<rubbish>>', remarks: 'Rates Dec quarter')
-    expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Category is not included in the list")
+    it 'raises an error when saving with no amount' do
+      expense = Expense.new(incurred_date: '13/12/2013', amount: nil, category: 'Council etc.', remarks: 'Rates Dec quarter', transacting_user_id: @ben.id, contingency_funded: false)
+      expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Amount must be greater than or equal to 0.01")
+    end
+
+    it 'allows saving with no remarks' do
+      expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: 'Council etc.', remarks: nil, transacting_user_id: @ben.id, contingency_funded: false)
+      expect{ expense.save! }.to change(Expense, :count).from(0).to(1)
+    end
+
+    it 'raises an error when saving with an invalid category' do
+      expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: '<<rubbish>>', remarks: 'Rates Dec quarter', transacting_user_id: @ben.id, contingency_funded: false)
+      expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Category is not included in the list")
+    end
+  
+    it 'raises an error when saving with a null transacting user' do
+      expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: 'Council etc.', remarks: 'Rates Dec quarter', transacting_user_id: nil, contingency_funded: false)
+      expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Transacting user must be a shareholder to record an expense (internal error)")
+    end
+  
+    it 'raises an error when saving with an invalid transacting user' do
+      expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: 'Council etc.', remarks: 'Rates Dec quarter', transacting_user_id: -1, contingency_funded: false)
+      expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Transacting user must be a shareholder to record an expense (internal error)")
+    end
+
+    it 'raises an error when saving with an invalid contingency_funded' do
+      expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: 'Council etc.', remarks: 'Rates Dec quarter', transacting_user_id: @ben.id, contingency_funded: nil)
+      expect{ expense.save! }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Contingency funded is not included in the list")
+    end
+
+    it 'saves an expense when all fields are valid' do
+      expense = Expense.new(incurred_date: '13/12/2013', amount: '7.50', category: 'Council etc.', remarks: 'Rates Dec quarter', transacting_user_id: @ben.id, contingency_funded: false)
+      expect{ expense.save! }.to_not raise_error
+      expect(expense.contingency_funded).to be_false
+    end
   end
 
 end

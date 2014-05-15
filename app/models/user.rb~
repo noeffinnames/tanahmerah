@@ -17,6 +17,13 @@ class User < ActiveRecord::Base
     return self.shareholding_percent > 0
   end
 
+  def self.has_shareholding?(id)
+    user = User.find_by_id(id)
+    if user == nil return false
+    if user.has_shareholding? return true
+    false
+  end
+
   def self.get_shareholders
     User.where(shareholder: true)
   end
@@ -33,10 +40,6 @@ class User < ActiveRecord::Base
     User.sum(:shareholding_percent) == 100
   end
 
-  def self.name_please(id)
-debugger
-    User.find(id).name
-  end
 
 
   def add_provider(auth)

@@ -17,6 +17,13 @@ class User < ActiveRecord::Base
     return self.shareholding_percent > 0
   end
 
+  def self.has_shareholding?(id)
+    user = User.find_by_id(id)
+    return false if user == nil 
+    return true if user.has_shareholding?
+    false
+  end
+
   def self.get_shareholders
     User.where(shareholder: true)
   end
