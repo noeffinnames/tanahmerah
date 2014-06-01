@@ -4,7 +4,9 @@ FactoryGirl.define do
     remarks { Faker::Lorem.sentence }
     amount { rand(1..100000) } #amount in cents
     category 'Electricity'
-    expended_date Time.now
+    incurred_date Time.now
+    contingency_funded false
+    transacting_user_id User.all_shareholder_ids.first
   end
 
   factory :no_remarks_expense, :parent => :expense do 

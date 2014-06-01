@@ -1,3 +1,37 @@
+Given(/^Frances Ben Gemma and Fiona are shareholders each with (\d+) percent shareholding$/) do |arg1|
+  FactoryGirl.create(:shareholder, :name => 'Frances', :shareholding_percent => arg1)
+  FactoryGirl.create(:shareholder, :name => 'Ben', :shareholding_percent => arg1)
+  FactoryGirl.create(:shareholder, :name => 'Gemma', :shareholding_percent => arg1)
+  FactoryGirl.create(:shareholder, :name => 'Fiona', :shareholding_percent => arg1)
+end
+
+Given(/^Chris is a shareholder with (\d+) percent shareholding$/) do |arg1|
+  FactoryGirl.create(:shareholder, :name => 'Chris', :shareholding_percent => arg1)
+end
+
+Given(/^I am logged in as Fiona$/) do
+  make_Fiona_the_current_user
+end
+
+
+def make_Fiona_the_current_user 
+  @shareholder_user = User.where(:name => 'Fiona').first
+  set_current_user_in_test(@shareholder_user)
+end
+
+Given(/^some expenses exist$/) do
+  make_Fiona_the_current_user
+  FactoryGirl.create(:expense, :transacting_user_id => @current_user.id)
+  FactoryGirl.create(:expense, :transacting_user_id => @current_user.id)
+  FactoryGirl.create(:expense, :transacting_user_id => @current_user.id)
+  FactoryGirl.create(:expense, :transacting_user_id => @current_user.id)
+end
+
+
+
+
+#====================================================
+#TODO - handle transacting_user_id and exercise GUI
 Given(/^some expenses are in the register$/) do
   create_expense('7 May, 2010', '4500', 'Equipment', 'New lawnmower')
   create_expense('05/01/2013', '4.75', 'Garden', 'Lavander bush')
@@ -24,108 +58,60 @@ def create_expense(date, amount, category, remarks)
   page.should have_xpath('//*', :text => remarks)
 end
 
-
-Given(/^some expenses are in the register for each shareholder$/) do
-  pending # express the regexp above with the code you wish you had
-end
+#====================================================
 
 Then(/^I can maintain any expense$/) do
-  pending # express the regexp above with the code you wish you had
+  expense_id = Expense.first.id
+  visit '/'  
+  visit "/admin/expenses/#{expense_id}"
+  current_path = URI.parse(current_url).path
+  current_path.should == "/admin/expenses/#{expense_id}"
+  page.should have_content('Transacted by: Fiona')
 end
 
 Then(/^I cannot maintain expenses$/) do
-  pending # express the regexp above with the code you wish you had
+  expense_id = Expense.first.id
+  visit '/'  
+  visit "/admin/expenses/#{expense_id}"
+  current_path = URI.parse(current_url).path
+  current_path.should == "/"
+  page.should have_content('You do not have authority to perform that action.')
 end
 
 When(/^I visit the list of expenses$/) do
-  pending # express the regexp above with the code you wish you had
+  visit '/'  
+  visit '/admin/expenses'
 end
-
-
 
 Then(/^I see all expenses$/) do
-  pending # express the regexp above with the code you wish you had
+  current_path = URI.parse(current_url).path
+  current_path.should == "/admin/expenses"
+  page.all('table#expenses tr').count.should == 5 #includes heading row
 end
 
-
-
-
+Then(/^I am denied access to expenses$/) do
+  visit '/'  
+  visit '/admin/expenses'
+  current_path = URI.parse(current_url).path
+  current_path.should == "/"
+  page.should have_content('You do not have authority to perform that action.')
+end
 
 Then(/^the sum of all shareholder's shareholding_percent is (\d+)%$/) do |arg1|
   pending # express the regexp above with the code you wish you had
 end
 
-
-
-
-
-
-When /I should see the merge articles feature/ do
- target_selector = "#merge_with"
- assert page.has_selector?(target_selector) , "failed to find css selector with class "+target_selector
+#TODO - factor this code out of here and user_steps.rb to a helper?
+def set_current_user_in_test(user)
+  @current_user = user 
+  set_stub_user_id(@current_user.id)
 end
 
-When /I should not see the merge articles feature/ do
-  target_selector = "#merge_with"
-  assert !page.has_selector?(target_selector) , "A non-admin user cannot merge articles - improperly found css selector with class "+target_selector+" as a non-admin user"
-end
-
-When /^I start editing an article$/ do
-  create_article "Foobar", "Lorem Ipsum"
-  click_link("Foobar")
-  page.should have_xpath('//*', :text => "Lorem Ipsum")
-end
-
-Given /^there is an article titled "(.*?)" with body of "(.*?)"$/ do |arg1, arg2|
-  create_article arg1, arg2
-end
-
-When /^I merge the article titled "(.*?)" with the article titled "(.*?)"$/ do |arg1, arg2|
+def set_stub_user_id(id)
+  #TODO - not setting session[:user_id] because of cucumber issues, so have used hack from http://stackoverflow.com/questions/1271788/session-variables-with-cucumber-stories
   
-  id_merge_into = Article.where(:title => arg1).first.id
-  id_merge_with = Article.where(:title => arg2).first.id
+  rack_test_browser = Capybara.current_session.driver.browser
 
-  visit '/admin/content'
-  current_path = URI.parse(current_url).path
-  page.should have_xpath('//*', :text => arg1)
-
-  click_link arg1
-  current_path = URI.parse(current_url).path
-  
-  fill_in 'merge_with', :with => id_merge_with
-  
-  click_button 'Merge'
-  
-  current_path = URI.parse(current_url).path
-  current_path.should == "/admin/content/edit/"+id_merge_into.to_s
-
+  cookie_jar = rack_test_browser.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
+  cookie_jar[:stub_user_id] = id
 end
-
-Then /^the article titled "(.*?)" must still exist$/ do |arg1|
-  assert Article.where(:title => arg1).first
-end
-
-Then /^the article titled "(.*?)" must not exist$/ do |arg1|
-  assert !Article.where(:title => arg1).first
-end
-
-Then /^the article titled "(.*?)" must have body of "(.*?)"$/ do |arg1, arg2|
-  
-  article = Article.where(:title => arg1).first
-  article.should be_instance_of(Article)
-  
-  body = article.body
-  body.should eql(arg2) #TODO consider use of YAML::dump(article) in error message
-end
-
-
-def create_article(title, body)
-  visit '/admin/content/new'
-  fill_in("article_title", :with => title) 
-  fill_in("article__body_and_extended_editor", :with => body)
-  click_button("Publish")
-  current_path = URI.parse(current_url).path
-  current_path.should == "/admin/content"
-  page.should have_xpath('//*', :text => title)
-end
-

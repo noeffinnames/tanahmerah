@@ -15,13 +15,7 @@ Given(/^I am logged in as an ordinary user$/) do
   set_current_user_in_test(@ordinary_user) 
 end
 
-Then(/^I am denied access to expenses$/) do
-  visit '/'  
-  visit '/admin/expenses'
-  current_path = URI.parse(current_url).path
-  current_path.should == "/"
-  page.should have_content('You do not have authority to perform that action.')
-end
+
 
 Then(/^I am denied access to users$/) do
   visit '/'  

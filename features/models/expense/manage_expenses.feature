@@ -17,7 +17,6 @@ Feature: Display the list of expenses
     And Chris is a shareholder with 40 percent shareholding
     And some expenses exist
     And I am logged in as an ordinary user
-    When I visit the list of expenses
     Then I am denied access to expenses  
  
   Scenario: Non-shareholder cannot maintain expenses in the register
