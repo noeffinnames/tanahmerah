@@ -1,3 +1,5 @@
+include Current_User_Helper
+
 Given(/^Frances Ben Gemma and Fiona are shareholders each with (\d+) percent shareholding$/) do |arg1|
   FactoryGirl.create(:shareholder, :name => 'Frances', :shareholding_percent => arg1)
   FactoryGirl.create(:shareholder, :name => 'Ben', :shareholding_percent => arg1)
@@ -101,17 +103,4 @@ Then(/^the sum of all shareholder's shareholding_percent is (\d+)%$/) do |arg1|
   pending # express the regexp above with the code you wish you had
 end
 
-#TODO - factor this code out of here and user_steps.rb to a helper?
-def set_current_user_in_test(user)
-  @current_user = user 
-  set_stub_user_id(@current_user.id)
-end
 
-def set_stub_user_id(id)
-  #TODO - not setting session[:user_id] because of cucumber issues, so have used hack from http://stackoverflow.com/questions/1271788/session-variables-with-cucumber-stories
-  
-  rack_test_browser = Capybara.current_session.driver.browser
-
-  cookie_jar = rack_test_browser.current_session.instance_variable_get(:@rack_mock_session).cookie_jar
-  cookie_jar[:stub_user_id] = id
-end
