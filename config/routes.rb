@@ -14,6 +14,7 @@ Tanahmerah::Application.routes.draw do
        # (app/controllers/admin/expenses_controller.rb)
        resources :expenses   #, :only => [:new, :create, :index]
        resources :users, :except => [:new, :create]
+       resources :debts, :only => [:index, :show]
      end
 
   resources :sessions, :only => [:create]

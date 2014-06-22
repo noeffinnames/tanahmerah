@@ -12,21 +12,58 @@ Given(/^Chris is a shareholder with (\d+) percent shareholding$/) do |arg1|
 end
 
 Given(/^I am logged in as Fiona$/) do
-  make_Fiona_the_current_user
+  make_the_current_user('Fiona')
 end
 
 
-def make_Fiona_the_current_user 
-  @shareholder_user = User.where(:name => 'Fiona').first
+def make_the_current_user(name) 
+  @shareholder_user = User.where(:name => name).first
   set_current_user_in_test(@shareholder_user)
 end
 
 Given(/^some expenses exist$/) do
-  make_Fiona_the_current_user
+  make_the_current_user('Fiona')
   FactoryGirl.create(:expense, :transacting_user_id => @current_user.id)
   FactoryGirl.create(:expense, :transacting_user_id => @current_user.id)
   FactoryGirl.create(:expense, :transacting_user_id => @current_user.id)
   FactoryGirl.create(:expense, :transacting_user_id => @current_user.id)
+end
+
+
+When(/^I visit the debt summary page$/) do
+  visit '/'  
+  visit '/admin/debts'
+end
+
+Then(/^I see a debt summary showing what shareholders owe each other$/) do
+  current_path = URI.parse(current_url).path
+  current_path.should == "/admin/debts"
+  page.all('table#debts tr').count.should == 5 #includes heading row
+end
+
+Then(/^I can drill down to the journals on any debt$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Given(/^"(.*?)" incurs a \$"(.*?)" expense$/) do |arg1, arg2|
+  make_the_current_user(arg1)
+  create_expense('7 May, 2010', arg2, 'Equipment', 'Lawnmower blades')
+end
+
+Then(/^"(.*?)" owes "(.*?)" \$"(.*?)"$/) do |arg1, arg2, arg3|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I am denied access to the debt summary page$/) do
+  visit '/'  
+  visit '/admin/debts'
+  current_path = URI.parse(current_url).path
+  current_path.should == "/"
+  page.should have_content('You do not have authority to perform that action.')
+end
+
+Then(/^I cannot drill down to the journals on any debt$/) do
+  pending # express the regexp above with the code you wish you had
 end
 
 
@@ -43,7 +80,7 @@ Given(/^some expenses are in the register$/) do
   current_path.should == "/admin/expenses"
   page.all('table#expenses tr').count.should == 4 #includes heading row
 end
-
+#====================================================
 
 def create_expense(date, amount, category, remarks)
   visit '/admin/expenses/new'
@@ -59,8 +96,6 @@ def create_expense(date, amount, category, remarks)
   page.should have_xpath('//*', :text => category)
   page.should have_xpath('//*', :text => remarks)
 end
-
-#====================================================
 
 Then(/^I can maintain any expense$/) do
   expense_id = Expense.first.id
