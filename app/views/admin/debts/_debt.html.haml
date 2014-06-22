@@ -1,0 +1,8 @@
+%tr
+  %td= debt.creditor_name 
+  %td= debt.debtor_name
+  %td= debt.owes_amount
+  %td= debt.owed_amount
+  %td= debt.net_amount
+  %td= debt.transacting_user_name
+  %td= link_to "Treatment of #{debt.net_amount}", admin_debt_path(debt)
