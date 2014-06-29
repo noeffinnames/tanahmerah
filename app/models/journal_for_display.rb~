@@ -49,9 +49,4 @@ class JournalForDisplay
     return @expense.contingency_funded
   end
 
-  def get_expense_amount
-    return Money.new(0) if !has_expense?
-    return @expense.amount
-  end
-
 end

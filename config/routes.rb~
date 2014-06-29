@@ -7,6 +7,7 @@ Tanahmerah::Application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
+  get 'admin/debts/journals/:creditor_id/:debtor_id' => 'debts#journals'
 
   # resource routes within admin namespace:
      namespace :admin do
@@ -14,7 +15,7 @@ Tanahmerah::Application.routes.draw do
        # (app/controllers/admin/expenses_controller.rb)
        resources :expenses   #, :only => [:new, :create, :index]
        resources :users, :except => [:new, :create]
-       resources :debts, :only => [:index]
+       resources :debts, :only => [:index, :show]
      end
 
   resources :sessions, :only => [:create]

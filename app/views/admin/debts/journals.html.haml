@@ -1,0 +1,14 @@
+%h1 Journals supporting debt to #{@creditor_name}
+%table#journals
+  %thead
+    %tr
+      %th Debtor
+      %th When
+      %th Total Expense
+      %th Debtor's portion
+      %th Category
+      %th Remarks
+  %tbody
+    = render :partial => 'journal_for_display', :collection => @journals_for_display_for_contract
+
+= link_to 'Add new expense', new_admin_expense_path

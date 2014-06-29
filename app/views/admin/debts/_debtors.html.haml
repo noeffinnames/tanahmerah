@@ -1,6 +1,0 @@
-%tr
-  %td= debtor.debtor_name
-  %td= humanized_money_with_symbol debtor.owes_amount
-  %td= humanized_money_with_symbol debtor.owed_amount
-  %td= humanized_money_with_symbol debtor.net_amount
-  %td= link_to "Show journals", admin_debtor_journal_path(debtor.debtor_id)

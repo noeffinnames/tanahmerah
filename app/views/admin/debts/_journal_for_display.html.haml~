@@ -1,7 +1,6 @@
 %tr
   %td= journal_for_display.owing_user_name
   %td= journal_for_display.incurred_date.strftime("%d %B, %Y") 
-  %td= humanized_money_with_symbol journal_for_display.get_expense_amount
   %td= humanized_money_with_symbol journal_for_display.amount
   %td= journal_for_display.get_category
   %td= journal_for_display.get_remarks

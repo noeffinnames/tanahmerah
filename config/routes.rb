@@ -7,6 +7,7 @@ Tanahmerah::Application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
+  get 'admin/debts/journals/:creditor_id/:debtor_id' => 'admin/debts#journals'
 
   # resource routes within admin namespace:
      namespace :admin do

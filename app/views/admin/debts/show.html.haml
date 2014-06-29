@@ -14,9 +14,11 @@
   %thead
     %tr
       %th Shareholder
-      %th Share of Amount
+      %th Owes
+      %th Owed
+      %th Net
   %tbody
-    = render :partial => 'debtors', :collection => @debt_portfolio_position.debt_positions
+    = render :partial => 'debtor', :collection => @debt_portfolio_position.debt_positions
 %p
 
 

@@ -14,7 +14,16 @@ class Journal < ActiveRecord::Base
   def self.get_journals_for_display_for_expense(id)
     journals = []
     Journal.where(expense_id: id).each do |journal|      
-      aJournal = JournalForDisplay.new(id, journal.owed_user_id, journal.owing_user_id, journal.amount)   
+      aJournal = JournalForDisplay.new(journal.incurred_date, id, journal.owed_user_id, journal.owing_user_id, journal.amount)   
+      journals << aJournal
+    end
+    journals
+  end
+
+  def self.get_journals_for_display_for_contract(creditor_id, debtor_id)
+    journals = []
+    Journal.where("owed_user_id = ? AND owing_user_id = ?", creditor_id, debtor_id).each do |journal|      
+      aJournal = JournalForDisplay.new(journal.incurred_date, journal.expense_id, journal.owed_user_id, journal.owing_user_id, journal.amount)   
       journals << aJournal
     end
     journals
