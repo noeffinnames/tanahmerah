@@ -3,7 +3,7 @@ class Admin::DebtsController < Admin::BaseController
   
 
   def index
-    @debt_portfolio_positions = Debty.all_y
+    @debt_portfolio_positions = Debt.all
   end
 
   def show

@@ -27,10 +27,8 @@ class Admin::ExpensesController < Admin::BaseController
   end
 
   def get_journals_for_display(id)
-debugger
     journals = []
-    Journal.where(expense_id: id).each do |journal|
-      debugger      
+    Journal.where(expense_id: id).each do |journal|      
       aJournal = JournalForDisplay.new(id, journal.owed_user_id, journal.owing_user_id, journal.amount)   
       journals << aJournal
     end

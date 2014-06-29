@@ -1,14 +1,18 @@
-class DebtPortfolioPositon
+class DebtPortfolioPosition
   
 # a ValueOject to support the (virtual) Debt model
 
   # remove the public setter interface
-  attr_reader :creditor_id, :creditor_name, :debt_positions
+  attr_reader :creditor_id, :creditor_name, :debt_positions, :owes_amount, :owed_amount, :net_amount
  
   def initialize(creditor_id, creditor_name, debt_positions)
     @creditor_id = creditor_id
     @creditor_name = creditor_name
     @debt_positions = debt_positions # a collection of DebtPosition objects
+    @owes_amount = Money.new(0)
+    @owed_amount = Money.new(0)
+    @net_amount = Money.new(0)
+    derive_summary_amounts
   end
  
   # VO is immutable. Here is a setter method to return a new value object
@@ -25,5 +29,19 @@ class DebtPortfolioPositon
   def hash
       [@creditor_id, @creditor_name, @debt_positions].hash
   end 
+
+  def derive_summary_amounts
+    owes_amount = 0
+    owed_amount = 0
+    net_amount = 0
+    @debt_positions.each do | debt_position |
+      owes_amount = owes_amount + debt_position.owes_amount.cents
+      owed_amount = owed_amount + debt_position.owed_amount.cents
+      net_amount = net_amount + debt_position.net_amount.cents
+    end
+    @owes_amount = Money.new(owes_amount)
+    @owed_amount = Money.new(owed_amount)
+    @net_amount = Money.new(net_amount)
+  end
 
 end

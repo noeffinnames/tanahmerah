@@ -1,14 +1,13 @@
-%h1 All Debt Portfolios
+%h1 All Debt Portfolio Positions
 
 %table#debt_portfolio_positions
   %thead
     %tr
       %th Creditor
-      %th Debtor
-      %th Owes Amount
-      %th Owed Amount
+      %th Owes
+      %th Owed
       %th Net Debt
   %tbody
-    = render :partial => 'expense', :collection => @debt_portfolio_positions
+    = render :partial => 'debt', :collection => @debt_portfolio_positions
 
 = link_to 'Add new expense', new_admin_expense_path

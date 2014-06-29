@@ -1,39 +1,24 @@
-%h2 Details about #{@expense.amount}
+%h2 Breakdown of net position
 
 %ul#details
   %li
-    Incurred date:
-    = @expense.incurred_date.strftime("%d %B, %Y")
+    Creditor name:
+    = @debt_portfolio_position.creditor_name
   %li
     Amount:
-    = humanized_money_with_symbol @expense.amount
-  %li
-    Category:
-    = @expense.category
-  %li
-    Transacted by:
-    = @expense.transacting_user_name
-  %li
-    Used sinking fund?:
-    = @expense.contingency_funded
+    = humanized_money_with_symbol @debt_portfolio_position.net_amount
 
-%h3 Remarks:
+%h3 Debtors:
 
-%p#description= @expense.remarks
-
-%h3 Journals:
-
-%table#journals
+%table#debtors
   %thead
     %tr
       %th Shareholder
       %th Share of Amount
   %tbody
-    = render :partial => 'journal_for_display', :collection => @journals_for_display
+    = render :partial => 'debtors', :collection => @debt_portfolio_position.positions
 %p
 
-= link_to 'Edit info', edit_admin_expense_path(@expense)
-= link_to 'Back to expense list', admin_expenses_path
-<p>
-= button_to 'Delete', admin_expense_path(@expense), :method => :delete, :confirm => 'Are you sure?'
-</p>
+
+= link_to 'Back to debt list', admin_debts_path
+

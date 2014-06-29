@@ -1,19 +1,43 @@
 class Debt
 
+  require 'debtportfolioposition'
+  require 'debtposition'
+
   def self.all
     return get_all_debt_portfolio_positions
   end
 
-  def find(creditor_id)
-    return build_debt_portfolio_position
+  def self.find(creditor_id)
+    return build_debt_portfolio_position(creditor_id)
   end
 
-  def get_all_debt_portfolio_positions
-    return Hash.new #TODO
+  def self.get_all_debt_portfolio_positions
+    User.all_shareholder_ids.each do | id |
+	    aPPosition = find(id)   
+      portfolio_positions << aPPosition
+    end
+    portfolio_positions
   end
 
-  def build_debt_portfolio_position (creditor_id) 
-    return new DebtPortfolioPosition(creditor_id, 'some name', Hash.new) #TODO
+  def self.build_debt_portfolio_position(creditor_id) 
+    aUser = User.find_by_id(creditor_id)
+    return DebtPortfolioPosition.new(creditor_id, aUser.name, build_debt_positions(aUser))
+  end
+  
+
+  def self.build_debt_positions(creditor)
+    User.get_shareholders.each do | debtor |
+      next if creditor.id == debtor.id # debts to self are not a valid concept
+	    aPosition = build_debt_position(creditor, debtor)   
+      debt_positions << aPosition
+    end
+    debt_positions
+  end
+
+  def self.build_debt_position(creditor, debtor) 
+    owes_amount = Journal.get_debt(creditor, debtor) #returns Money object
+    owed_amount = Journal.get_credit(creditor, debtor) #returns Money object
+    return DebtPosition.new(creditor.id, creditor.name, debtor.id, debtor.name, owes_amount, owed_amount)
   end
 
   
