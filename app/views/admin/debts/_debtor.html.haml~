@@ -1,6 +1,6 @@
-%tr
+%tr.debtor
   %td= debtor.debtor_name
   %td= humanized_money_with_symbol debtor.owed_amount
   %td= humanized_money_with_symbol debtor.owes_amount
   %td= humanized_money_with_symbol debtor.net_amount
-  %td= link_to "Show journals", "admin/debtor/journals/#{debtor.creditor_id}/#{debtor.debtor_id}"
+  %td= link_to "Show journals", "journals/#{debtor.creditor_id}/#{debtor.debtor_id}"

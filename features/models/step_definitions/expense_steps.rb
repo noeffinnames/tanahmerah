@@ -38,11 +38,16 @@ end
 Then(/^I see a debt summary showing what shareholders owe each other$/) do
   current_path = URI.parse(current_url).path
   current_path.should == "/admin/debts"
-  page.all('table#debts tr').count.should == 5 #includes heading row
+  page.all('table#debt_portfolio_positions tr').count.should == 6 #includes heading row
 end
 
 Then(/^I can drill down to the journals on any debt$/) do
-  pending # express the regexp above with the code you wish you had
+  visit '/'  
+  visit '/admin/debts'
+  first('.debt').click_link("Show debtors")
+  page.should have_xpath('//*', :text => "Show journals")
+  first('.debtor').click_link("Show journals")
+  page.should have_xpath('//*', :text => "Journals supporting debt")
 end
 
 Given(/^"(.*?)" incurs a \$"(.*?)" expense$/) do |arg1, arg2|
@@ -51,7 +56,19 @@ Given(/^"(.*?)" incurs a \$"(.*?)" expense$/) do |arg1, arg2|
 end
 
 Then(/^"(.*?)" owes "(.*?)" \$"(.*?)"$/) do |arg1, arg2, arg3|
-  pending # express the regexp above with the code you wish you had
+  creditor_user_id = User.where(:name => arg2).first.id
+  visit '/'  
+  visit "/admin/debts/#{creditor_user_id}"
+  page.should have_content("Creditor name: #{arg2}")
+
+  page.all('.debtor').each do |tr|
+    next unless tr.has_content?(arg1)
+
+    tr.all('td')[0].text.should == arg1
+    tr.all('td')[3].text.should == "$#{arg3}"
+
+    break
+  end
 end
 
 Then(/^I am denied access to the debt summary page$/) do
